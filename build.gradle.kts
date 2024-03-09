@@ -15,3 +15,9 @@ tasks.register<Copy>("generateDescriptions") {
     into("$buildDir/descriptions")
     filter(ReplaceTokens::class, "tokens" to mapOf(("THEME_PARK_NAME" to "Grelephant's Wonder World")))
 }
+
+tasks.register<Zip>("zipDescriptions") {
+    from("$buildDir/descriptions")
+    destinationDirectory = buildDir
+    archiveFileName = "descriptions.zip"
+}
