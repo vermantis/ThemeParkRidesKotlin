@@ -10,7 +10,24 @@ plugins {
     base
 }
 
-tasks.register<Copy>("generateDescriptions") {
+//  Best performance alternative 1
+//tasks.register<Copy>("generateDescriptions") {
+//    from("descriptions")
+//    into("$buildDir/descriptions")
+//    filter(ReplaceTokens::class, "tokens" to mapOf(("THEME_PARK_NAME" to "Grelephant's Wonder World")))
+//}
+
+//  Best performance alternative 2
+//val generateDescriptions by tasks.registering(Copy::class) {
+//      from("descriptions")
+//      into("$buildDir/descriptions")
+//      filter(ReplaceTokens::class, "tokens" to mapOf(("THEME_PARK_NAME" to "Grelephant's Wonder World")))
+//}
+
+//  Legacy syntax task definition
+task<Copy>("generateDescriptions") {
+    group = "Theme park"
+    description = "Copies theme park ride description"
     from("descriptions")
     into("$buildDir/descriptions")
     filter(ReplaceTokens::class, "tokens" to mapOf(("THEME_PARK_NAME" to "Grelephant's Wonder World")))
@@ -20,4 +37,27 @@ tasks.register<Zip>("zipDescriptions") {
     from("$buildDir/descriptions")
     destinationDirectory = buildDir
     archiveFileName = "descriptions.zip"
+}
+
+tasks.register("sayHello") {
+    doLast {
+        println("Hello!")
+    }
+}
+
+tasks.register("sayBye") {
+    doLast {
+        println("Bye!")
+    }
+    //  Disable task
+    //enabled = false
+
+    //  Evaluate by onlyIf if the task must be executed
+    onlyIf {
+        2 == 2
+    }
+}
+
+tasks.register<Delete>("delete") {
+    delete("deletethis")
 }
