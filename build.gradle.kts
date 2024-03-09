@@ -4,3 +4,14 @@
  * This is a general purpose Gradle build.
  * To learn more about Gradle by exploring our Samples at https://docs.gradle.org/8.6/samples
  */
+import org.apache.tools.ant.filters.ReplaceTokens
+
+plugins {
+    base
+}
+
+tasks.register<Copy>("generateDescriptions") {
+    from("descriptions")
+    into("$buildDir/descriptions")
+    filter(ReplaceTokens::class, "tokens" to mapOf(("THEME_PARK_NAME" to "Grelephant's Wonder World")))
+}
